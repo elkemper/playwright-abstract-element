@@ -1,14 +1,31 @@
 {
   "name": "playwright-abstract-element",
-  "version": "0.0.0",
-  "description": "Playwright AbstractElement pattern",
-  "main": "index.js",
+  "packageManager": "yarn@1.22.22",
+  "version": "0.0.1",
+  "description": "Playwright AbstractElement pattern implementation",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "index.ts",
+    "src/**/*",
+    "lib/**/*",
+    "tsconfig.json"
+  ],
   "repository": "git@github.com:elkemper/playwright-abstract-element.git",
   "author": "Vladislav Belous <elkemper@users.noreply.github.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "yarn build"
+  },
   "dependencies": {
     "@types/node": "^22.5.2",
-    "playwright": "^1.46.1",
     "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "playwright": "^1.45.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.2"
   }
 }
