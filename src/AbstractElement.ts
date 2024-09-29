@@ -21,68 +21,67 @@
  * SOFTWARE.
  */
 
-import { Locator } from "playwright-core";
-import { PlaywrightPageProvider } from "./PageProvider";
-import { expectElement } from "./helpers/Assertions";
+import { Locator } from 'playwright-core';
+import { PlaywrightPageProvider } from './PageProvider';
+import { expectElement } from './helpers/Assertions';
 
 export type LocatorOptions = {
   hasNotText?: string | RegExp;
   hasText?: string | RegExp;
-}
+};
 
 /**
- *  Selector for Abstract Element  
- *  You can either specify just a string  
- *  Or you can put an object that look like playwright internal selector that contains 
+ *  Selector for Abstract Element
+ *  You can either specify just a string
+ *  Or you can put an object that look like playwright internal selector that contains
  */
-export type Selector = string | { selector: string, options?: LocatorOptions }
+export type Selector = string | { selector: string; options?: LocatorOptions };
 
 export default abstract class AbstractElement {
-  protected readonly abstract selector: Selector
-  constructor(protected readonly parent?: AbstractElement) {
-  }
+  protected abstract readonly selector: Selector;
+  constructor(protected readonly parent?: AbstractElement) {}
 
   public async element(): Promise<Locator> {
     if (!this.selector) {
-      throw new Error(`No selector specified for the element`)
+      throw new Error(`No selector specified for the element`);
     }
     if (this.parent) {
-      return this.parent.find(this.selector)
+      return this.parent.find(this.selector);
     } else {
       if (typeof this.selector === 'string') {
-        return (await PlaywrightPageProvider.getPage()).locator(this.selector)
+        return (await PlaywrightPageProvider.getPage()).locator(this.selector);
       } else {
-        return (await PlaywrightPageProvider.getPage()).locator(this.selector.selector, this.selector.options)
+        return (await PlaywrightPageProvider.getPage()).locator(this.selector.selector, this.selector.options);
       }
     }
   }
 
   public async find(selector: Selector): Promise<Locator> {
     if (typeof selector === 'string') {
-      return (await this.element()).locator(selector)
+      return (await this.element()).locator(selector);
     } else {
-      return (await this.element()).locator(selector.selector, selector.options)
+      return (await this.element()).locator(selector.selector, selector.options);
     }
   }
 
   public async click(options?: Parameters<Locator['click']>[0]): Promise<void> {
-    return (await this.element()).click(options)
+    return (await this.element()).click(options);
   }
 
   public async press(key: string) {
-    return (await this.element()).press(key)
+    return (await this.element()).press(key);
   }
 
   public async type(text: string): Promise<void> {
-    (await this.element()).focus()
-    return (await PlaywrightPageProvider.getPage()).keyboard.type(text, { delay: 113 })
+    (await this.element()).focus();
+    return (await PlaywrightPageProvider.getPage()).keyboard.type(text, { delay: 113 });
   }
 
   public async fill(text: string) {
-    return (await this.element()).fill(text)
+    return (await this.element()).fill(text);
   }
 
-  public get expect(){
-    return expectElement(this) 
+  public get expect() {
+    return expectElement(this);
   }
 }

@@ -1,12 +1,10 @@
-import { Locator, expect as playwrightExpect, Expect } from 'playwright/test';
+import { Locator, expect as playwrightExpect } from 'playwright/test';
 import AbstractElement from '../AbstractElement';
 
-type  PWLocatorExpect = ReturnType<typeof playwrightExpect<Locator>>
+type PWLocatorExpect = ReturnType<typeof playwrightExpect<Locator>>;
 
 type AsyncExpect = {
-  [K in keyof PWLocatorExpect]: PWLocatorExpect[K] extends (...args: infer A) => any
-    ? (...args: A) => Promise<any>
-    : never;
+  [K in keyof PWLocatorExpect]: PWLocatorExpect[K] extends (...args: infer A) => any ? (...args: A) => Promise<any> : never;
 };
 
 export function expectElement(element: AbstractElement): AsyncExpect {
