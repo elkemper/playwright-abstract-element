@@ -15,8 +15,7 @@
   "author": "Vladislav Belous <elkemper@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "prepare": "yarn build"
+    "prepare": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "@types/node": "^22.5.2",
